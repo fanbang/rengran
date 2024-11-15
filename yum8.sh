@@ -1,3 +1,4 @@
+#!/bin/sh
 ####将Centos 8的yum源更换为国内的阿里云源###
 cd /etc/yum.repos.d/
 sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*

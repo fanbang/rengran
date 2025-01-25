@@ -10,11 +10,12 @@ fi
 handle_connection() {
     local port="$1"
     echo "正在监听端口: $port"
-    
-    # 使用netcat监听指定的端口
+
+    # 使用nc监听指定的端口
     while true; do
-        # nc -lk会保持连接，-k使得tc能够持续接受新连接
-        { echo "连接到端口 $port"; nc -lk "$port"; } | while read line; do
+        # nc -lk -p 保持监听并输出连接信息
+        nc -lk "$port" -c 'echo "连接到端口 $port"; cat' |
+        while read line; do
             echo "收到连接: $line"
         done
     done

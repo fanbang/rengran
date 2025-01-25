@@ -6,25 +6,14 @@ if [ "$#" -eq 0 ]; then
     exit 1
 fi
 
-# 定义函数来处理连接
-handle_connection() {
-    local port="$1"
-    echo "正在监听端口: $port"
-
-    # 使用 netcat 监听指定的端口
-    while true; do
-        {
-            nc -l -p "$port" -c 'echo "连接到端口 '$port'"'
-        } | while read line; do
-            echo "收到消息: $line"
-        done
-    done
-}
-
 # 遍历所有提供的端口参数
 for port in "$@"; do
-    handle_connection "$port" &
+    echo "正在监听端口: $port"
+    # 监听指定端口，并打印收到的消息
+    nc -l -p "$port" -q 1 | while read line; do
+        echo "收到消息: $line"
+    done &
 done
 
-# 等待所有后台进程完成
+# 等待所有后台进程
 wait

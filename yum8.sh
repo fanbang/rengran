@@ -9,9 +9,17 @@ fi
 # 遍历所有提供的端口参数
 for port in "$@"; do
     echo "正在监听端口: $port"
-    # 监听指定端口，并打印收到的消息
-    nc -l -p "$port" -q 1 | while read line; do
-        echo "收到消息: $line"
+    # 使用 netcat 监听指定的端口
+    while true; do
+        # 等待连接，如果有连接则处理
+        { 
+            # 打印连接消息
+            echo "连接到端口 $port" 
+            # 等待输入并打印收到的消息
+            nc -l -p "$port" -q 1 
+        } | while read line; do
+            [[ -n "$line" ]] && echo "收到消息: $line"
+        done
     done &
 done
 

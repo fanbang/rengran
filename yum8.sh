@@ -6,7 +6,7 @@ if [ "$#" -eq 0 ]; then
     exit 1
 fi
 
-# 定义一个函数来处理连接
+# 定义一个函数来 处理连接
 handle_connection() {
     local port="$1"
     while true; do
